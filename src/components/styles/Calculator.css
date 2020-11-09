@@ -1,0 +1,27 @@
+.calculator {
+  border: 1px rgb(37, 3, 3) solid;
+  width: 300px;
+  min-height: 350px;
+  background-color: rgb(228, 228, 228);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding-top: 20px;
+}
+
+.output {
+  height: 70px;
+  border: 1px solid yellow;
+  display: flex;
+  justify-content: flex-end;
+  align-items: flex-end;
+  font-size: 50px;
+  font-weight: 600;
+  padding: 5px;
+}
+
+.calc-wrap {
+  display: flex;
+  flex-wrap: wrap;
+  padding: 0 0 5px 5px;
+}
