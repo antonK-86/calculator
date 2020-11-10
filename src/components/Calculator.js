@@ -42,8 +42,11 @@ function Calculator() {
     if (key === "=") {
       setFlag(true);
       setLog([...log, output]);
-      console.log(log.join(""));
-      setOutput(evaluate(log.join("") + output).toString());
+      setOutput(
+        evaluate(log.join("") + output)
+          .toString()
+          .substr(0, 17)
+      );
       setLog([]);
       setIsMin(false);
     }
@@ -89,9 +92,8 @@ function Calculator() {
       setIsMin(false);
     }
 
-    // доработать % и +\-//
-
     if (!Number.isNaN(parseInt(key))) {
+      if (output.length === 17) return;
       if (isMin) return;
       if (flag) setOutput("");
       setOutput((output) => {
@@ -102,9 +104,6 @@ function Calculator() {
     }
   };
 
-  //console.log(log);
-  // console.log("output - " + output);
-
   const btn = btns.map((i) => (
     <Button key={i} handleClick={(e) => handleClick(e)}>
       {i}
@@ -113,7 +112,10 @@ function Calculator() {
 
   return (
     <div className="calculator">
-      {log && log.map((i) => <span key={i}>{i}</span>)}
+      <div className="log">
+        {log && log.map((i) => <span key={i}>{i}</span>)}
+      </div>
+
       <div className="output">{output}</div>
       <div className="calc-wrap">{btn}</div>
     </div>
