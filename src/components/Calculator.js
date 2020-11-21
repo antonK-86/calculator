@@ -14,7 +14,7 @@ function Calculator() {
   const btns = [
     "C",
     "<-",
-    "%",
+    "X^2",
     "/",
     "7",
     "8",
@@ -42,11 +42,7 @@ function Calculator() {
     if (key === "=") {
       setFlag(true);
       setLog([...log, output]);
-      setOutput(
-        evaluate(log.join("") + output)
-          .toString()
-          .substr(0, 17)
-      );
+      setOutput(evaluate(log.join("") + output).toString());
       setLog([]);
       setIsMin(false);
     }
@@ -86,6 +82,13 @@ function Calculator() {
       setIsMin(false);
     }
 
+    if (key === "X^2") {
+      setFlag(true);
+      setLog([...log, output]);
+      setOutput((prev) => Math.pow(prev, 2).toString());
+      setLog([]);
+    }
+
     if (key === "+" || key === "-" || key === "*" || key === "/") {
       setLog([...log, output + key]);
       setFlag(true);
@@ -115,8 +118,9 @@ function Calculator() {
       <div className="log">
         {log && log.map((i) => <span key={i}>{i}</span>)}
       </div>
-
-      <div className="output">{output}</div>
+      <div className="output">
+        {output.length < 17 ? output : "Very big value"}
+      </div>
       <div className="calc-wrap">{btn}</div>
     </div>
   );
