@@ -4,12 +4,30 @@ import "./styles/Calculator.css";
 import Button from "./Button";
 
 function Calculator() {
-  // console.log("render calculator");
-
   const [output, setOutput] = useState("0");
   const [log, setLog] = useState([]);
   const [flag, setFlag] = useState(false);
   const [isMin, setIsMin] = useState(false); //для работы +\-
+
+  const resultLength = 17;
+
+  function changeNum(n) {
+    if (n >= 99999999999999999) return "Very big value";
+    let c = parseInt(n);
+    const cLength = c.toString().length;
+
+    let fractNum = n - Math.floor(Math.abs(n));
+    let fractNumLength = 0;
+
+    if (fractNum) {
+      fractNumLength = fractNum.toString().length - 2;
+      if (cLength + fractNumLength + 1 > resultLength) {
+        fractNum = fractNum.toFixed(resultLength - cLength);
+      }
+    }
+
+    return (+c + +fractNum).toString();
+  }
 
   const btns = [
     "C",
@@ -42,7 +60,8 @@ function Calculator() {
     if (key === "=") {
       setFlag(true);
       setLog([...log, output]);
-      setOutput(evaluate(log.join("") + output).toString());
+      setOutput(changeNum(evaluate(log.join("") + output)));
+      //setOutput(changeNum(evaluate(log.join("") + (output)).toString());
       setLog([]);
       setIsMin(false);
     }
@@ -85,7 +104,7 @@ function Calculator() {
     if (key === "X^2") {
       setFlag(true);
       setLog([...log, output]);
-      setOutput((prev) => Math.pow(prev, 2).toString());
+      setOutput((prev) => changeNum(Math.pow(prev, 2)));
       setLog([]);
     }
 
@@ -118,9 +137,7 @@ function Calculator() {
       <div className="log">
         {log && log.map((i) => <span key={i}>{i}</span>)}
       </div>
-      <div className="output">
-        {output.length < 17 ? output : "Very big value"}
-      </div>
+      <div className="output">{output}</div>
       <div className="calc-wrap">{btn}</div>
     </div>
   );
